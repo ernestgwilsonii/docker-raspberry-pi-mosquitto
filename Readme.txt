@@ -35,12 +35,6 @@ cp TCP_1883_Unencrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_1883_Unencrypted_M
 cp TCP_8883_Encrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_8883_Encrypted_MQTT.conf
 cp TCP_9001_Unencrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9001_Unencrypted_Websockets.conf
 cp TCP_9883_Encrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9883_Encrypted_Websockets.conf
-cp ca.crt /opt/mqtt/config/certs/ca.crt
-cp ca.key /opt/mqtt/config/certs/ca.key
-cp ca.srl /opt/mqtt/config/certs/ca.srl
-cp nodered.crt /opt/mqtt/config/certs/nodered.crt
-cp nodered.key /opt/mqtt/config/certs/nodered.key
-cp nodered.csr /opt/mqtt/config/certs/nodered.csr
 cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
 cp passwd /opt/mqtt/config/passwd
 cp aclfile /opt/mqtt/config/aclfile
