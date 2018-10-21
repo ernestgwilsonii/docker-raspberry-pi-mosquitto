@@ -1,0 +1,10 @@
+# This affects all clients
+pattern write $SYS/#
+
+# This affects access control for clients with no username
+topic read $SYS/#
+
+# W3TCP
+user W3TCP
+topic owntracks/W3TCP
+topic read owntracks/+/#

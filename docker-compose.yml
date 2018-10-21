@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+
+  mqtt:
+    image: ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.3 
+    hostname: mosquitto
+    ports:
+      # MQTT unencrypted TCP 1883
+      - mode: host
+        target: 1883
+        published: 1883
+        protocol: tcp
+      # MQTT encrypted TCP 8883
+      - mode: host
+        target: 8883
+        published: 8883
+        protocol: tcp
+      # Websocket unencrypted TCP 9001
+      - mode: host
+        target: 9001
+        published: 9001
+        protocol: tcp
+      # Websocket encrypted TCP 9883
+      - mode: host
+        target: 9883
+        published: 9883
+        protocol: tcp
+    networks:
+      - mqtt-net1
+    volumes:
+      - type: bind
+        source: /opt/mqtt
+        target: /etc/mosquitto
+    deploy:
+      labels:
+        local.description: "Mosquitto MQTT"
+      restart_policy:
+        condition: on-failure
+
+networks:
+  mqtt-net1:
+

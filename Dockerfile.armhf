@@ -1,0 +1,18 @@
+FROM arm32v7/buildpack-deps:18.10-curl
+MAINTAINER ErnestGWilsonII@gmail.com
+
+RUN apt-get update && apt-get install -y apt-utils build-essential libssl1.0-dev libossp-uuid16 uuid-dev \
+    && apt-get install -y libev4 libuv1 libwebsockets8 libwrap0 libossp-uuid16 \
+    && cd /tmp/ \
+    && wget http://mosquitto.org/files/source/mosquitto-1.5.3.tar.gz \
+    && useradd mosquitto \
+    && tar xvzf mosquitto-1.5.3.tar.gz \
+    && cd mosquitto-1.5.3 \
+    && make install \
+    && chown -R mosquitto:mosquitto /etc/mosquitto \
+    && /sbin/ldconfig \
+    && apt-get remove -y apt-utils build-essential libssl1.0-dev libossp-uuid16 uuid-dev
+
+ 
+CMD ["/usr/local/sbin/mosquitto"]
+
