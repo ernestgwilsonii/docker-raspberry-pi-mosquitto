@@ -4,61 +4,70 @@
 #
 # Default values are shown, uncomment to change.
 #
-# Use the # character to indicate a comment, but only if it is the
+# Use the # character to indicate a comment, but only if it is the 
 # very first character on the line.
 
 # =================================================================
 # General configuration
 # =================================================================
 
-# Time in seconds to wait before resending an outgoing QoS=1 or
-# QoS=2 message.
-#retry_interval 20
-
 # Time in seconds between updates of the $SYS tree.
 # Set to 0 to disable the publishing of the $SYS tree.
 #sys_interval 10
 
-# Time in seconds between cleaning the internal message store of
-# unreferenced messages. Lower values will result in lower memory
-# usage but more processor time, higher values will have the
+# Time in seconds between cleaning the internal message store of 
+# unreferenced messages. Lower values will result in lower memory 
+# usage but more processor time, higher values will have the 
 # opposite effect.
-# Setting a value of 0 means the unreferenced messages will be
+# Setting a value of 0 means the unreferenced messages will be 
 # disposed of as quickly as possible.
 #store_clean_interval 10
 
-# Write process id to a file. Default is a blank string which means
+# Write process id to a file. Default is a blank string which means 
 # a pid file shouldn't be written.
 # This should be set to /var/run/mosquitto.pid if mosquitto is
-# being run automatically on boot with an init script and
+# being run automatically on boot with an init script and 
 # start-stop-daemon or similar.
 #pid_file
 
-# When run as root, drop privileges to this user and its primary
+# When run as root, drop privileges to this user and its primary 
 # group.
-# Leave blank to stay as root, but this is not recommended.
+# Set to root to stay as root, but this is not recommended.
 # If run as a non-root user, this setting has no effect.
-# Note that on Windows this has no effect and so mosquitto should
+# Note that on Windows this has no effect and so mosquitto should 
 # be started by the user you wish it to run as.
 #user mosquitto
 
-# The maximum number of QoS 1 and 2 messages currently inflight per
+# The maximum number of QoS 1 and 2 messages currently inflight per 
 # client.
-# This includes messages that are partway through handshakes and
-# those that are being retried. Defaults to 20. Set to 0 for no
-# maximum. Setting to 1 will guarantee in-order delivery of QoS 1
+# This includes messages that are partway through handshakes and 
+# those that are being retried. Defaults to 20. Set to 0 for no 
+# maximum. Setting to 1 will guarantee in-order delivery of QoS 1 
 # and 2 messages.
 #max_inflight_messages 20
 
-# The maximum number of QoS 1 and 2 messages to hold in a queue
-# above those that are currently in-flight.  Defaults to 100. Set
+# QoS 1 and 2 messages will be allowed inflight per client until this limit
+# is exceeded.  Defaults to 0. (No maximum)
+# See also max_inflight_messages
+#max_inflight_bytes 0
+
+# The maximum number of QoS 1 and 2 messages to hold in a queue per client
+# above those that are currently in-flight.  Defaults to 100. Set 
 # to 0 for no maximum (not recommended).
 # See also queue_qos0_messages.
+# See also max_queued_bytes.
 #max_queued_messages 100
+
+# QoS 1 and 2 messages above those currently in-flight will be queued per
+# client until this limit is exceeded.  Defaults to 0. (No maximum)
+# See also max_queued_messages.
+# If both max_queued_messages and max_queued_bytes are specified, packets will
+# be queued until the first limit is reached.
+#max_queued_bytes 0
 
 # Set to true to queue messages with QoS 0 when a persistent client is
 # disconnected. These messages are included in the limit imposed by
-# max_queued_messages.
+# max_queued_messages and max_queued_bytes
 # Defaults to false.
 # This is a non-standard option for the MQTT v3.1 spec but is allowed in
 # v3.1.1.
@@ -67,7 +76,7 @@
 # This option sets the maximum publish payload size that the broker will allow.
 # Received messages that exceed this size will not be accepted by the broker.
 # The default value is 0, which means that all valid MQTT messages are
-# accepted. MQTT imposes a maximum payload size of 268435455 bytes.
+# accepted. MQTT imposes a maximum payload size of 268435455 bytes. 
 #message_size_limit 0
 
 # This option controls whether a client is allowed to connect with a zero
@@ -122,12 +131,43 @@
 # This is a non-standard option explicitly disallowed by the spec.
 #upgrade_outgoing_qos false
 
+# Disable Nagle's algorithm on client sockets. This has the effect of reducing
+# latency of individual messages at the potential cost of increasing the number
+# of packets being sent.
+#set_tcp_nodelay false
+
+# Use per listener security settings.
+# If this option is set to true, then all authentication and access control
+# options are controlled on a per listener basis. The following options are
+# affected:
+#
+# password_file acl_file psk_file auth_plugin auth_opt_* allow_anonymous
+# auto_id_prefix allow_zero_length_clientid
+#
+# Note that if set to true, then a durable client (i.e. with clean session set
+# to false) that has disconnected will use the ACL settings defined for the
+# listener that it was most recently connected to.
+#
+# The default behaviour is for this to be set to false, which maintains the 
+# setting behaviour from previous versions of mosquitto.
+#per_listener_settings false
+
+# This option affects the scenario when a client subscribes to a topic that has
+# retained messages. It is possible that the client that published the retained
+# message to the topic had access at the time they published, but that access
+# has been subsequently removed. If check_retain_source is set to true, the
+# default, the source of a retained message will be checked for access rights
+# before it is republished. When set to false, no check will be made and the
+# retained message will always be published. This affects all listeners.
+#check_retain_source true
+
+
 # =================================================================
 # Default listener
 # =================================================================
 
 # IP address/hostname to bind the default listener to. If not
-# given, the default listener will not be bound to a specific
+# given, the default listener will not be bound to a specific 
 # address and so will be accessible to all network interfaces.
 # bind_address ip-address/host name
 #bind_address
@@ -135,11 +175,11 @@
 # Port to use for the default listener.
 #port 1883
 
-# The maximum number of client connections to allow. This is
+# The maximum number of client connections to allow. This is 
 # a per listener setting.
 # Default is -1, which means unlimited connections.
-# Note that other process limits mean that unlimited connections
-# are not really possible. Typically the default maximum number of
+# Note that other process limits mean that unlimited connections 
+# are not really possible. Typically the default maximum number of 
 # connections possible is around 1024.
 #max_connections -1
 
@@ -169,21 +209,21 @@
 # -----------------------------------------------------------------
 # Certificate based SSL/TLS support
 # -----------------------------------------------------------------
-# The following options can be used to enable SSL/TLS support for
+# The following options can be used to enable SSL/TLS support for 
 # this listener. Note that the recommended port for MQTT over TLS
 # is 8883, but this must be set manually.
 #
 # See also the mosquitto-tls man page.
 
-# At least one of cafile or capath must be defined. They both
-# define methods of accessing the PEM encoded Certificate
-# Authority certificates that have signed your server certificate
+# At least one of cafile or capath must be defined. They both 
+# define methods of accessing the PEM encoded Certificate 
+# Authority certificates that have signed your server certificate 
 # and that you wish to trust.
 # cafile defines the path to a file containing the CA certificates.
 # capath defines a directory that will be searched for files
 # containing the CA certificates. For capath to work correctly, the
 # certificate files must have ".crt" as the file ending and you must run
-# "c_rehash <path to capath>" each time you add/remove a certificate.
+# "openssl rehash <path to capath>" each time you add/remove a certificate.
 #cafile
 #capath
 
@@ -194,10 +234,8 @@
 #keyfile
 
 # This option defines the version of the TLS protocol to use for this listener.
-# The default value allows v1.2, v1.1 and v1.0, if they are all supported by
-# the version of openssl that the broker was compiled against. For openssl >=
-# 1.0.1 the valid values are tlsv1.2 tlsv1.1 and tlsv1. For openssl < 1.0.1 the
-# valid values are tlsv1.
+# The default value allows v1.2, v1.1 and v1.0. The valid values are tlsv1.2
+# tlsv1.1 and tlsv1.
 #tls_version
 
 # By default a TLS enabled listener will operate in a similar fashion to a
@@ -212,7 +250,15 @@
 # If require_certificate is true, you may set use_identity_as_username to true
 # to use the CN value from the client certificate as a username. If this is
 # true, the password_file option will not be used for this listener.
+# This takes priority over use_subject_as_username.
+# See also use_subject_as_username.
 #use_identity_as_username false
+
+# If require_certificate is true, you may set use_subject_as_username to true
+# to use the complete subject value from the client certificate as a username.
+# If this is true, the password_file option will not be used for this listener.
+# See also use_identity_as_username
+#use_subject_as_username false
 
 # If you have require_certificate set to true, you can create a certificate
 # revocation list file to revoke access to particular client certificates. If
@@ -220,7 +266,7 @@
 #crlfile
 
 # If you wish to control which encryption ciphers are used, use the ciphers
-# option. The list of available ciphers can be optained using the "openssl
+# option. The list of available ciphers can be obtained using the "openssl
 # ciphers" command and should be provided in the same format as the output of
 # that command.
 # If unset defaults to DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2:@STRENGTH
@@ -253,7 +299,7 @@
 
 # When using PSK, the encryption ciphers used will be chosen from the list of
 # available PSK ciphers. If you want to control which ciphers are available,
-# use the "ciphers" option.  The list of available ciphers can be optained
+# use the "ciphers" option.  The list of available ciphers can be obtained
 # using the "openssl ciphers" command and should be provided in the same format
 # as the output of that command.
 #ciphers
@@ -262,25 +308,25 @@
 # Extra listeners
 # =================================================================
 
-# Listen on a port/ip address combination. By using this variable
-# multiple times, mosquitto can listen on more than one port. If
-# this variable is used and neither bind_address nor port given,
+# Listen on a port/ip address combination. By using this variable 
+# multiple times, mosquitto can listen on more than one port. If 
+# this variable is used and neither bind_address nor port given, 
 # then the default listener will not be started.
-# The port number to listen on must be given. Optionally, an ip
-# address or host name may be supplied as a second argument. In
-# this case, mosquitto will attempt to bind the listener to that
-# address and so restrict access to the associated network and
+# The port number to listen on must be given. Optionally, an ip 
+# address or host name may be supplied as a second argument. In 
+# this case, mosquitto will attempt to bind the listener to that 
+# address and so restrict access to the associated network and 
 # interface. By default, mosquitto will listen on all interfaces.
 # Note that for a websockets listener it is not possible to bind to a host
 # name.
 # listener port-number [ip address/host name]
 #listener
 
-# The maximum number of client connections to allow. This is
+# The maximum number of client connections to allow. This is 
 # a per listener setting.
 # Default is -1, which means unlimited connections.
-# Note that other process limits mean that unlimited connections
-# are not really possible. Typically the default maximum number of
+# Note that other process limits mean that unlimited connections 
+# are not really possible. Typically the default maximum number of 
 # connections possible is around 1024.
 #max_connections -1
 
@@ -331,7 +377,7 @@
 # capath defines a directory that will be searched for files
 # containing the CA certificates. For capath to work correctly, the
 # certificate files must have ".crt" as the file ending and you must run
-# "c_rehash <path to capath>" each time you add/remove a certificate.
+# "openssl rehash <path to capath>" each time you add/remove a certificate.
 #cafile
 #capath
 
@@ -402,11 +448,11 @@
 # Persistence
 # =================================================================
 
-# If persistence is enabled, save the in-memory database to disk
-# every autosave_interval seconds. If set to 0, the persistence
+# If persistence is enabled, save the in-memory database to disk 
+# every autosave_interval seconds. If set to 0, the persistence 
 # database will only be written when mosquitto exits. See also
 # autosave_on_changes.
-# Note that writing of the persistence database can be forced by
+# Note that writing of the persistence database can be forced by 
 # sending mosquitto a SIGUSR1 signal.
 #autosave_interval 1800
 
@@ -418,13 +464,13 @@
 #autosave_on_changes false
 
 # Save persistent message data to disk (true/false).
-# This saves information about all messages, including
-# subscriptions, currently in-flight messages and retained
+# This saves information about all messages, including 
+# subscriptions, currently in-flight messages and retained 
 # messages.
 # retained_persistence is a synonym for this option.
 #persistence false
 
-# The filename to use for the persistent database, not including
+# The filename to use for the persistent database, not including 
 # the path.
 #persistence_file mosquitto.db
 
@@ -438,17 +484,17 @@
 # Logging
 # =================================================================
 
-# Places to log to. Use multiple log_dest lines for multiple
+# Places to log to. Use multiple log_dest lines for multiple 
 # logging destinations.
 # Possible destinations are: stdout stderr syslog topic file
 #
 # stdout and stderr log to the console on the named output.
 #
-# syslog uses the userspace syslog facility which usually ends up
+# syslog uses the userspace syslog facility which usually ends up 
 # in /var/log/messages or similar.
 #
-# topic logs to the broker topic '$SYS/broker/log/<severity>',
-# where severity is one of D, E, W, N, I, M which are debug, error,
+# topic logs to the broker topic '$SYS/broker/log/<severity>', 
+# where severity is one of D, E, W, N, I, M which are debug, error, 
 # warning, notice, information and message. Message type severity is used by
 # the subscribe/unsubscribe log_types and publishes log messages to
 # $SYS/broker/log/M/susbcribe or $SYS/broker/log/M/unsubscribe.
@@ -461,7 +507,7 @@
 # Note that if the broker is running as a Windows service it will default to
 # "log_dest none" and neither stdout nor stderr logging is available.
 # Use "log_dest none" if you wish to disable logging.
-log_dest syslog
+#log_dest stderr
 
 # If using syslog logging (not on Windows), messages will be logged to the
 # "daemon" facility by default. Use the log_facility option to choose which of
@@ -471,7 +517,7 @@ log_dest syslog
 
 # Types of messages to log. Use multiple log_type lines for logging
 # multiple types of messages.
-# Possible types are: debug, error, warning, notice, information,
+# Possible types are: debug, error, warning, notice, information, 
 # none, subscribe, unsubscribe, websockets, all.
 # Note that debug type messages are for decoding the incoming/outgoing
 # network packets. They are not logged in "topics".
@@ -498,28 +544,22 @@ log_dest syslog
 # Security
 # =================================================================
 
-# If set, only clients that have a matching prefix on their
-# clientid will be allowed to connect to the broker. By default,
+# If set, only clients that have a matching prefix on their 
+# clientid will be allowed to connect to the broker. By default, 
 # all clients may connect.
 # For example, setting "secure-" here would mean a client "secure-
 # client" could connect but another with clientid "mqtt" couldn't.
 #clientid_prefixes
 
-# Boolean value that determines whether clients that connect
-# without providing a username are allowed to connect. If set to
-# false then a password file should be created (see the
-# password_file option) to control authenticated client access.
-# Defaults to true.
+# Boolean value that determines whether clients that connect 
+# without providing a username are allowed to connect. If set to 
+# false then a password file should be created (see the 
+# password_file option) to control authenticated client access. 
+#
+# Defaults to true if no other security options are set. If any other
+# authentication options are set, then allow_anonymous defaults to false.
+#
 #allow_anonymous true
-
-# In addition to the clientid_prefixes, allow_anonymous and TLS
-# authentication options, username based authentication is also
-# possible. The default support is described in "Default
-# authentication and topic access control" below. The auth_plugin
-# allows another authentication method to be used.
-# Specify the path to the loadable plugin and see the
-# "Authentication and topic access plugin options" section below.
-#auth_plugin
 
 # -----------------------------------------------------------------
 # Default authentication and topic access control
@@ -531,11 +571,12 @@ log_dest syslog
 # plain text passwords are used, in which case the file should be a text file
 # with lines in the format:
 # username:password
-# The password (and colon) may be omitted if desired, although this
+# The password (and colon) may be omitted if desired, although this 
 # offers very little in the way of security.
-#
+# 
 # See the TLS client require_certificate and use_identity_as_username options
-# for alternative authentication options.
+# for alternative authentication options. If an auth_plugin is used as well as
+# password_file, the auth_plugin check will be made first.
 #password_file
 
 # Access may also be controlled using a pre-shared-key file. This requires
@@ -543,6 +584,7 @@ log_dest syslog
 # lines in the format:
 # identity:key
 # The key should be in hexadecimal format without a leading "0x".
+# If an auth_plugin is used as well, the auth_plugin check will be made first.
 #psk_file
 
 # Control access to topics on the broker using an access control list
@@ -553,14 +595,14 @@ log_dest syslog
 # Topic access is added with lines of the format:
 #
 # topic [read|write|readwrite] <topic>
-#
+# 
 # The access type is controlled using "read", "write" or "readwrite". This
 # parameter is optional (unless <topic> contains a space character) - if not
 # given then the access is read/write.  <topic> can contain the + or #
 # wildcards as in subscriptions.
-#
+# 
 # The first set of topics are applied to anonymous clients, assuming
-# allow_anonymous is true. User specific topic ACLs are added after a
+# allow_anonymous is true. User specific topic ACLs are added after a 
 # user line as follows:
 #
 # user <username>
@@ -592,18 +634,31 @@ log_dest syslog
 #
 # pattern write sensor/%u/data
 #
+# If an auth_plugin is used as well as acl_file, the auth_plugin check will be
+# made first.
 #acl_file
 
 # -----------------------------------------------------------------
-# Authentication and topic access plugin options
+# External authentication and topic access plugin options
 # -----------------------------------------------------------------
+
+# External authentication and access control can be supported with the
+# auth_plugin option. This is a path to a loadable plugin. See also the
+# auth_opt_* options described below. 
+#
+# The auth_plugin option can be specified multiple times to load multiple
+# plugins. The plugins will be processed in the order that they are specified
+# here. If the auth_plugin option is specified alongside either of
+# password_file or acl_file then the plugin checks will be made first.
+#
+#auth_plugin
 
 # If the auth_plugin option above is used, define options to pass to the
 # plugin here as described by the plugin instructions. All options named
 # using the format auth_opt_* will be passed to the plugin, for example:
 #
 # auth_opt_db_host
-# auth_opt_db_port
+# auth_opt_db_port 
 # auth_opt_db_username
 # auth_opt_db_password
 
@@ -616,21 +671,29 @@ log_dest syslog
 # Create a new bridge using the "connection" option as described below. Set
 # options for the bridges using the remaining parameters. You must specify the
 # address and at least one topic to subscribe to.
+#
 # Each connection must have a unique name.
+#
 # The address line may have multiple host address and ports specified. See
 # below in the round_robin description for more details on bridge behaviour if
-# multiple addresses are used.
-# The direction that the topic will be shared can be chosen by
-# specifying out, in or both, where the default value is out.
+# multiple addresses are used. Note that if you use an IPv6 address, then you
+# are required to specify a port.
+#
+# The direction that the topic will be shared can be chosen by 
+# specifying out, in or both, where the default value is out. 
 # The QoS level of the bridged communication can be specified with the next
 # topic option. The default QoS level is 0, to change the QoS the topic
 # direction must also be given.
+#
 # The local and remote prefix options allow a topic to be remapped when it is
 # bridged to/from the remote broker. This provides the ability to place a topic
-# tree in an appropriate location.
+# tree in an appropriate location. 
+#
 # For more details see the mosquitto.conf man page.
-# Multiple topics can be specified per connection, but be careful
+#
+# Multiple topics can be specified per connection, but be careful 
 # not to create any loops.
+#
 # If you are using bridges with cleansession set to false (the default), then
 # you may get unexpected behaviour from incoming topics if you change what
 # topics you are subscribing to. This is because the remote broker keeps the
@@ -642,8 +705,8 @@ log_dest syslog
 #topic <topic> [[[out | in | both] qos-level] local-prefix remote-prefix]
 
 # Set the version of the MQTT protocol to use with for this bridge. Can be one
-# of mqttv31 or mqttv311. Defaults to mqttv31.
-#bridge_protocol_version mqttv31
+# of mqttv311 or mqttv11. Defaults to mqttv311.
+#bridge_protocol_version mqttv311
 
 # If a bridge has topics that have "out" direction, the default behaviour is to
 # send an unsubscribe request to the remote broker on that topic. This means
@@ -678,12 +741,12 @@ log_dest syslog
 #local_clientid
 
 # Set the clean session variable for this bridge.
-# When set to true, when the bridge disconnects for any reason, all
-# messages and subscriptions will be cleaned up on the remote
-# broker. Note that with cleansession set to true, there may be a
-# significant amount of retained messages sent when the bridge
+# When set to true, when the bridge disconnects for any reason, all 
+# messages and subscriptions will be cleaned up on the remote 
+# broker. Note that with cleansession set to true, there may be a 
+# significant amount of retained messages sent when the bridge 
 # reconnects after losing its connection.
-# When set to false, the subscriptions and messages are kept on the
+# When set to false, the subscriptions and messages are kept on the 
 # remote broker, and delivered when the bridge reconnects.
 #cleansession false
 
@@ -698,9 +761,9 @@ log_dest syslog
 # Choose the topic on which notification messages for this bridge are
 # published. If not set, messages are published on the topic
 # $SYS/broker/connection/<clientid>/state
-#notification_topic
+#notification_topic 
 
-# Set the keepalive interval for this bridge connection, in
+# Set the keepalive interval for this bridge connection, in 
 # seconds.
 #keepalive_interval 60
 
@@ -765,8 +828,8 @@ log_dest syslog
 # certificate.
 # bridge_capath defines a directory that will be searched for files containing
 # the CA certificates. For bridge_capath to work correctly, the certificate
-# files must have ".crt" as the file ending and you must run "c_rehash <path to
-# capath>" each time you add/remove a certificate.
+# files must have ".crt" as the file ending and you must run "openssl rehash
+# <path to capath>" each time you add/remove a certificate.
 #bridge_cafile
 #bridge_capath
 
@@ -802,13 +865,17 @@ log_dest syslog
 # External config files
 # =================================================================
 
-# External configuration files may be included by using the
+# External configuration files may be included by using the 
 # include_dir option. This defines a directory that will be searched
 # for config files. All files that end in '.conf' will be loaded as
 # a configuration file. It is best to have this as the last option
 # in the main file. This option will only be processed from the main
-# configuration file. The directory specified must not contain the
+# configuration file. The directory specified must not contain the 
 # main configuration file.
+# Files within include_dir will be loaded sorted in case-sensitive
+# alphabetical order, with capital letters ordered first. If this option is
+# given multiple times, all of the files from the first instance will be
+# processed before the next instance. See the man page for examples.
 #include_dir
 
 # =================================================================
@@ -819,4 +886,3 @@ log_dest syslog
 #max_log_entries
 #trace_level
 #trace_output
-

@@ -6,17 +6,17 @@
 
 ###############################################################################
 # Docker build
-time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.3 -f Dockerfile.armhf .
+time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.7 -f Dockerfile.armhf .
 docker images
 
 # Verify 
-docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.3
+docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.7
 # From another ssh session:
 #docker ps
 
 # Upload to Docker Hub
 docker login
-docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.3
+docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.7
 ###############################################################################
 
 
@@ -61,7 +61,7 @@ docker service logs -f mosquitto_mqtt
 # Install MQTT client
 # REF: https://mosquitto.org/download/
 
-# CentOS 7x
+# CentOS 7x Client
 vi /etc/yum.repos.d/mqtt.repo
 [home_oojah_mqtt]
 name=mqtt (CentOS_CentOS-7)
@@ -73,8 +73,13 @@ enabled=1
 :wq!
 yum -y install mosquitto-clients
 
-# Ubuntu
+# Mac OS Client
+brew install mosquitto
+
+# Ubuntu Client
 apt-get install mosquitto-clients
+
+# Windows Client - https://mosquitto.org/download/
 
 # Pub / Sub via command line (MQTT protocol)
 mosquitto_sub -v -h 10.x.y.z -p 1883 -t "Chan19"
