@@ -82,8 +82,12 @@ apt-get install mosquitto-clients
 # Windows Client - https://mosquitto.org/download/
 
 # Pub / Sub via command line (MQTT protocol)
-mosquitto_sub -v -h 10.x.y.z -p 1883 -t "Chan19"
-mosquitto_pub -d -h 10.x.y.z -p 1883 -t "Chan19" -m "Hello MQTT from command line"
+# Subscribe to "all" channels/topics aka wildcard
+#mosquitto_sub -v -h 127.0.0.1 -p 1883 -t "#"
+# Subscribe to everything on Chan19
+mosquitto_sub -v -h 127.0.0.1 -p 1883 -t "Chan19"
+# Publish to Chan19
+mosquitto_pub -d -h 127.0.0.1 -p 1883 -t "Chan19" -m "Hello MQTT from command line"
 
 # Pub / Sub via browser (Websocket protocol)
 # REF: http://mitsuruog.github.io/what-mqtt/

@@ -17,6 +17,7 @@ RUN apt-get update \
     && apt-get remove -y apt-utils build-essential libssl-dev libossp-uuid16 uuid-dev \
     && apt-get clean -y \
     && apt-get autoclean -y \
-    && apt-get autoremove -y
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
  
 CMD ["/usr/local/sbin/mosquitto"]
