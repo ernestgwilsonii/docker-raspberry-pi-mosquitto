@@ -4,16 +4,16 @@ RUN apt-get update \
     && apt-get install -y apt-utils \
     && apt-get install -y build-essential libssl-dev libossp-uuid16 uuid-dev libev4 libuv1 libwebsockets8 libwrap0 libossp-uuid16 \
     && cd /tmp/ \
-    && wget http://mosquitto.org/files/source/mosquitto-1.5.7.tar.gz \
+    && wget http://mosquitto.org/files/source/mosquitto-1.6.2.tar.gz \
     && useradd mosquitto \
-    && tar xvzf mosquitto-1.5.7.tar.gz \
-    && cd mosquitto-1.5.7 \
+    && tar xvzf mosquitto-1.6.2.tar.gz \
+    && cd mosquitto-1.6.2 \
     && make install \
     && chown -R mosquitto:mosquitto /etc/mosquitto \
     && /sbin/ldconfig \
     && make clean \
     && cd /tmp/ \
-    && rm -Rf mosquitto-1.5.7 \
+    && rm -Rf mosquitto-1.6.2 \
     && apt-get remove -y apt-utils build-essential libssl-dev libossp-uuid16 uuid-dev \
     && apt-get clean -y \
     && apt-get autoclean -y \

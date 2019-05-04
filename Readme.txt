@@ -6,17 +6,17 @@
 
 ###############################################################################
 # Docker build
-time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.7 -f Dockerfile.armhf .
+time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
 docker images
 
 # Verify 
-docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.7
+docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2
 # From another ssh session:
 #docker ps
 
 # Upload to Docker Hub
 docker login
-docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:1.5.7
+docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2
 ###############################################################################
 
 
