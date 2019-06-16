@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ernestgwilsonii/docker-raspberry-pi-mosquitto.svg?branch=master)](https://travis-ci.org/ernestgwilsonii/docker-raspberry-pi-mosquitto)
+```
 ##########################################
 # Mosquitto MQTT Docker for Raspberry Pi #
 #             REF: https://mosquitto.org # 
@@ -107,3 +109,4 @@ Hello from Websocket!
 # REF: https://developer.ibm.com/linuxonpower/2017/07/28/travis-multi-architecture-ci-workflow/
 # REF: https://github.com/multiarch/qemu-user-static/releases
 ###############################################################################
+```
