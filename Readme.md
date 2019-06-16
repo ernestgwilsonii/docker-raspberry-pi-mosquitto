@@ -114,6 +114,7 @@ Hello from Websocket!
 
 ###############################################################################
 # Travis CI Notes:
+# REF: https://travis-ci.org/ernestgwilsonii/docker-raspberry-pi-mosquitto
 # To build ARM (for Raspberry Pi) in the cloud on X86_64 requires:
 #  - a special Docker that understands "docker build --volume"
 #  - qemu emulation
