@@ -3,6 +3,8 @@ sudo: required
 services:
   - docker
 before_install:
+  #- docker --version
+  # Switch to a Docker version that uses --volume syntax
   #- sudo apt-get update
   #- sudo apt-get install -y wget git
   #- sudo apt-get remove docker-ce
@@ -11,11 +13,12 @@ before_install:
   #- sudo apt-get install -y docker-engine
   # Use qemu to build arm32v7 for Raspberry Pi using Travis CI on x86_64 in the cloud!
   - docker --version
+  - docker build --help
   - docker run --rm --privileged multiarch/qemu-user-static:register
   - wget https://github.com/multiarch/qemu-user-static/releases/download/v2.9.1/qemu-arm-static.tar.gz -O /tmp/qemu-arm-static.tar.gz
   - tar zxvf /tmp/qemu-arm-static.tar.gz -C /tmp
   # Build ARM Docker image using the qemu volume to allow ARM to build on X86_64 for Raspberry Pi 3
-  - docker build --volume type=bind,source=/tmp/qemu-arm-static,target=/usr/bin/qemu-arm-static -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
+  - docker build -v type=bind,source=/tmp/qemu-arm-static,target=/usr/bin/qemu-arm-static -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
 install: true
 before_script: true
 script: docker images
