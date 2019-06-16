@@ -3,7 +3,11 @@ sudo: required
 services:
   - docker
 before_install:
+  # Determine number of CPU cores available
+  - nproc
+  # Display default Docker version
   - docker --version
+  - docker build --help
   # Switch to a Docker version that understand "docker build --volume" syntax for qemu to work!
   - sudo apt-get update
   - sudo apt-get install -y wget git
@@ -11,6 +15,7 @@ before_install:
   - echo "deb [arch=amd64 trusted=yes] http://ftp.unicamp.br/pub/linuxpatch/ubuntu/14_04/misc/docker-17.04.0-ce-amd64/ trusty main" | sudo tee /etc/apt/sources.list.d/docker-engine.list
   - sudo apt-get update
   - sudo apt-get install -y docker-engine
+  # Display current Docker version
   - docker --version
   - docker build --help
   # Use qemu to build arm32v7 for Raspberry Pi using Travis CI on x86_64 in the cloud!
