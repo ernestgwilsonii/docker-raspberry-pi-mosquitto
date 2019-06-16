@@ -1,4 +1,4 @@
-language: c
+language: bash
 
 sudo: required
 
@@ -9,5 +9,6 @@ branches:
   only:
     - master
 
-install:
+script:
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   - docker build -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
