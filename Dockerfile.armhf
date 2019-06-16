@@ -1,4 +1,5 @@
-FROM arm32v7/buildpack-deps:19.04-curl
+FROM resin/rpi-raspbian
+#FROM arm32v7/buildpack-deps:19.04-curl
 
 RUN apt-get update \
     && apt-get install -y apt-utils \
