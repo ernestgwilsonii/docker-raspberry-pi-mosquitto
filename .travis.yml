@@ -26,7 +26,7 @@ before_install:
   - wget https://github.com/multiarch/qemu-user-static/releases/download/v2.9.1/qemu-arm-static.tar.gz -O /tmp/qemu-arm-static.tar.gz
   - tar zxvf /tmp/qemu-arm-static.tar.gz -C /tmp
   # Build ARM Docker image using the qemu volume to allow ARM to build on X86_64 for Raspberry Pi 3
-  - docker build --volume type=bind,source=/tmp/qemu-arm-static,target=/usr/bin/qemu-arm-static -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
+  - docker build --volume type=bind,source=/tmp/qemu-arm-static,target=/usr/bin/qemu-arm-static --build-arg MOSQUITTO_VERSION=$MOSQUITTO_VERSION -t ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION -f Dockerfile.armhf .
 install: true
 before_script: true
 script: docker images
