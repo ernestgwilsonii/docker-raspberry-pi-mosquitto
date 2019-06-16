@@ -7,19 +7,27 @@
 
 
 ###############################################################################
+# Specify the desired Mosquitto version to build
+# REF: https://mosquitto.org/download/
+MOSQUITTO_VERSION=$(cat version.txt)
+echo $MOSQUITTO_VERSION
+export MOSQUITTO_VERSION=$MOSQUITTO_VERSION
+
 # Docker build
-#time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
-time docker build -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
+#time docker build --build-arg MOSQUITTO_VERSION=$MOSQUITTO_VERSION --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION -f Dockerfile.armhf .
+time docker build --build-arg MOSQUITTO_VERSION=$MOSQUITTO_VERSION -t ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION -f Dockerfile.armhf .
+
+# List images and examine sizes
 docker images
 
 # Verify 
-docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2
+docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION
 # From another ssh session:
 #docker ps
 
 # Upload to Docker Hub
 docker login
-docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2
+docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION
 ###############################################################################
 
 

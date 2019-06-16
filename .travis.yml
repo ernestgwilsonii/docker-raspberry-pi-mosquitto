@@ -3,6 +3,9 @@ sudo: required
 services:
   - docker
 before_install:
+  - MOSQUITTO_VERSION=$(cat version.txt)
+  - echo $MOSQUITTO_VERSION
+  - export MOSQUITTO_VERSION=$MOSQUITTO_VERSION
   # Determine number of CPU cores available
   - nproc
   # Display default Docker version

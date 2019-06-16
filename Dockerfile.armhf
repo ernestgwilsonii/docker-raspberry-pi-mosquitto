@@ -1,20 +1,23 @@
 FROM arm32v7/buildpack-deps:19.04-curl
 
+ARG MOSQUITTO_VERSION=1.6.2
+ENV MOSQUITTO_VERSION=$MOSQUITTO_VERSION
+
 RUN apt-get update \
     && apt-get install -y apt-utils \
     && apt-get install -y build-essential libssl-dev libossp-uuid16 uuid-dev libev4 libuv1 libwebsockets8 libwrap0 libossp-uuid16 \
     && cd /tmp/ \
-    && wget http://mosquitto.org/files/source/mosquitto-1.6.2.tar.gz \
+    && wget http://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VERSION}.tar.gz \
     && useradd mosquitto \
-    && tar xvzf mosquitto-1.6.2.tar.gz \
-    && cd mosquitto-1.6.2 \
+    && tar xvzf mosquitto-${MOSQUITTO_VERSION}.tar.gz \
+    && cd mosquitto-${MOSQUITTO_VERSION} \
     && make -j$(nproc) \
     && make install \
     && chown -R mosquitto:mosquitto /etc/mosquitto \
     && /sbin/ldconfig \
     && make clean \
     && cd /tmp/ \
-    && rm -Rf mosquitto-1.6.2 \
+    && rm -Rf mosquitto-${MOSQUITTO_VERSION} \
     && apt-get remove -y apt-utils build-essential libssl-dev libossp-uuid16 uuid-dev \
     && apt-get clean -y \
     && apt-get autoclean -y \
