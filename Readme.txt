@@ -6,7 +6,8 @@
 
 ###############################################################################
 # Docker build
-time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
+#time docker build --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
+time docker build -t ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2 -f Dockerfile.armhf .
 docker images
 
 # Verify 
