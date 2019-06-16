@@ -28,6 +28,10 @@ docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQU
 # Upload to Docker Hub
 docker login
 docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION
+# Update the latest tag to point to the updated version
+docker tag ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION ernestgwilsonii/docker-raspberry-pi-mosquitto:latest
+docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:latest
+# REF: https://hub.docker.com/r/ernestgwilsonii/docker-raspberry-pi-mosquitto
 ###############################################################################
 
 
