@@ -19,5 +19,5 @@ RUN apt-get update \
     && apt-get autoclean -y \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
- 
+
 CMD ["/usr/local/sbin/mosquitto"]

@@ -23,3 +23,8 @@ install: true
 before_script: true
 script: docker images
 after_script: true
+deploy:
+  provider: script
+  script: bash docker_push.sh
+  on:
+    branch: master

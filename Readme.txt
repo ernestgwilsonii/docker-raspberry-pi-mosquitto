@@ -97,3 +97,13 @@ Chan19
 Hello from Websocket!
 ###############################################################################
 
+
+###############################################################################
+# Travis CI Notes:
+# To build ARM (for Raspberry Pi) in the cloud on X86_64 requires:
+#  - a special Docker that understands "docker build --volume"
+#  - qemu emulation
+# REF: https://github.com/dersimn/HelloARM
+# REF: https://developer.ibm.com/linuxonpower/2017/07/28/travis-multi-architecture-ci-workflow/
+# REF: https://github.com/multiarch/qemu-user-static/releases
+###############################################################################
