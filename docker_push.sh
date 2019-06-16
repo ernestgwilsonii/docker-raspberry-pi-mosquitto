@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME"
+docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:1.6.2
