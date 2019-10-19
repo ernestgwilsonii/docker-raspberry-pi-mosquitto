@@ -24,7 +24,7 @@ before_install:
   - sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
   - ls -alFh /etc/apt/sources.list.d/ | grep docker
   - sudo apt-get update
-  - sudo apt-get install -y --allow-unauthenticated docker-engine=17.04.0-dev
+  - sudo apt-get install -y --allow-unauthenticated docker-engine=17.04.0
   # Display current Docker version
   - docker --version
   - docker build --help
