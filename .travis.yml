@@ -24,11 +24,9 @@ before_install:
   # Add specific Docker repo for version 17.04.0~dev~git20170712.145042.0.7d584ad-0~ubuntu-trusty
   - echo "deb [arch=amd64 trusted=yes] http://ftp.unicamp.br/pub/linuxpatch/ubuntu/14_04/misc/docker-17.04.0-ce-amd64/ trusty main" | sudo tee /etc/apt/sources.list.d/docker-engine.list
   - cat /etc/apt/sources.list.d/docker-engine.list
-  #- sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
   - ls -alFh /etc/apt/sources.list.d/ | grep docker
   # We need a source that has package "libsystemd-journal0" that is needed by old docker-engine 17.04-dev
   - sudo echo "deb http://cz.archive.ubuntu.com/ubuntu trusty main" >> /etc/apt/sources.list
-  #- sudo cat /etc/apt/sources.list
   - sudo apt-get update
   - apt-cache show docker-engine | grep Version
   - apt-cache show libsystemd-journal0 | grep Version
