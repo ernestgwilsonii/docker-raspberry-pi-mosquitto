@@ -23,11 +23,13 @@ before_install:
   - ls -alFh /etc/apt/sources.list.d/
   - sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
   - ls -alFh /etc/apt/sources.list.d/ | grep docker
+  - sudo cat /etc/apt/sources.list
+  - sudo echo "deb http://cz.archive.ubuntu.com/ubuntu trusty main" >> /etc/apt/sources.list
+  - sudo cat /etc/apt/sources.list
   - sudo apt-get update
   - apt-cache show docker-engine | grep Version
-  #- apt-cache show libsystemd-journal0 | grep Version
-  - apt-cache show libsystemd-journal | grep Version
-  - sudo apt-get install -y --allow-unauthenticated libsystemd-journal
+  - apt-cache show libsystemd-journal0 | grep Version
+  - sudo apt-get install -y --allow-unauthenticated libsystemd-journal0
   #- sudo apt-get install -y --allow-unauthenticated docker-engine=17.04.0~dev~git20170712.145042.0.7d584ad-0~ubuntu-trusty
   - sudo apt-get install -y --allow-unauthenticated docker-engine=17.04.0~ce-0~ubuntu-xenial
   # Display current Docker version
