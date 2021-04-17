@@ -39,8 +39,8 @@ services:
         source: /opt/mqtt/data
         target: /mosquitto/data
       - type: bind
-        source: /opt/mqtt/log
-        target: /mosquitto/log
+        source: /opt/mqtt/mosquitto.log
+        target: /tmp/mosquitto.log
     deploy:
       labels:
         local.description: "Mosquitto MQTT"
