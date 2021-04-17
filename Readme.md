@@ -1,7 +1,7 @@
 ```
 ##########################################
 # Mosquitto MQTT Docker for Raspberry Pi #
-#             REF: https://mosquitto.org # 
+#             REF: https://mosquitto.org #
 ##########################################
 
 
