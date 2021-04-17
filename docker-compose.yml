@@ -34,6 +34,9 @@ services:
         target: /mosquitto/config/mosquitto.conf
       - type: bind
         source: /opt/mqtt/config/conf.d
+        target: /mosquitto/config/certs
+      - type: bind
+        source: /opt/mqtt/config/certs
         target: /mosquitto/config/conf.d
       - type: bind
         source: /opt/mqtt/data
