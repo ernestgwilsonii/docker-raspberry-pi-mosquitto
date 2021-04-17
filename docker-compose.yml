@@ -1,7 +1,6 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   mqtt:
     image: arm64v8/eclipse-mosquitto:2.0.10-openssl
     hostname: mosquitto
@@ -29,9 +28,16 @@ services:
     networks:
       - mqtt-net1
     volumes:
+      # docker run -it -p 1883:1883 -p 9001:9001 -v mosquitto.conf:/mosquitto/config/mosquitto.conf -v /mosquitto/data -v /mosquitto/log arm64v8/eclipse-mosquitto
       - type: bind
-        source: /opt/mqtt
-        target: /etc/mosquitto
+        source: /opt/mqtt/config/mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
+      - type: bind
+        source: /opt/mqtt/data
+        target: /mosquitto/data
+      - type: bind
+        source: /opt/mqtt/log
+        target: /mosquitto/log
     deploy:
       labels:
         local.description: "Mosquitto MQTT"
