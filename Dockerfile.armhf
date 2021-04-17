@@ -1,11 +1,11 @@
-FROM arm32v7/buildpack-deps:19.04-curl
+FROM arm32v7/buildpack-deps:21.04-curl
 
-ARG MOSQUITTO_VERSION=1.6.7
+ARG MOSQUITTO_VERSION=2.0.10
 ENV MOSQUITTO_VERSION=$MOSQUITTO_VERSION
 
 RUN apt-get update \
     && apt-get install -y apt-utils \
-    && apt-get install -y build-essential libssl-dev libossp-uuid16 uuid-dev libev4 libuv1 libwebsockets8 libwrap0 libossp-uuid16 \
+    && apt-get install -y build-essential libssl-dev libossp-uuid16 uuid-dev libev4 libuv1 libwebsockets-dev libwrap0 libossp-uuid16 \
     && cd /tmp/ \
     && wget http://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VERSION}.tar.gz \
     && useradd mosquitto \

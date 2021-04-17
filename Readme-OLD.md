@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ernestgwilsonii/docker-raspberry-pi-mosquitto.svg?branch=master)](https://travis-ci.org/ernestgwilsonii/docker-raspberry-pi-mosquitto)
 ```
 ##########################################
 # Mosquitto MQTT Docker for Raspberry Pi #
@@ -6,24 +7,31 @@
 
 
 ###############################################################################
-ssh pi@IpAddressOfYourRaspberryPi
-# Specify Mosquito Version:
-# NORMAL VERSIONS: https://hub.docker.com/_/eclipse-mosquitto
-# RASPBERRY PI 4 VERSIONS: https://hub.docker.com/r/arm64v8/eclipse-mosquitto/
-# The "openssl" version uses openssl instead of libressl, and enables TLS-PSK and TLS v1.3 cipher support
-# REF: https://github.com/eclipse/mosquitto/tree/1c79920d78321c69add9d6d6f879dd73387bc25e/docker/2.0-openssl
-MOSQUITTO_VERSION=2.0.10-openssl
+# Specify the desired Mosquitto version to build
+# REF: https://mosquitto.org/download/
+MOSQUITTO_VERSION=$(cat version.txt)
+echo $MOSQUITTO_VERSION
+export MOSQUITTO_VERSION=$MOSQUITTO_VERSION
 
-# Dowbload the Raspberry Pi 4 version:
-docker pull arm64v8/eclipse-mosquitto:$MOSQUITTO_VERSION
+# Docker build
+#time docker build --build-arg MOSQUITTO_VERSION=$MOSQUITTO_VERSION --no-cache -t ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION -f Dockerfile.armhf .
+time docker build --build-arg MOSQUITTO_VERSION=$MOSQUITTO_VERSION -t ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION -f Dockerfile.armhf .
 
 # List images and examine sizes
 docker images
 
-# Test running Mosquitto MQTT on Raspberry Pi 4
-docker run -it arm64v8/eclipse-mosquitto:$MOSQUITTO_VERSION
+# Verify 
+docker run -it -p 1883:1883 ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION
 # From another ssh session:
-docker ps
+#docker ps
+
+# Upload to Docker Hub
+docker login
+docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION
+# Update the latest tag to point to the updated version
+docker tag ernestgwilsonii/docker-raspberry-pi-mosquitto:$MOSQUITTO_VERSION ernestgwilsonii/docker-raspberry-pi-mosquitto:latest
+docker push ernestgwilsonii/docker-raspberry-pi-mosquitto:latest
+# REF: https://hub.docker.com/r/ernestgwilsonii/docker-raspberry-pi-mosquitto
 ###############################################################################
 
 
@@ -31,10 +39,6 @@ docker ps
 # First time setup #
 ####################
 # Create bind mounted directies
-ssh pi@IpAddressOfYourRaspberryPi
-cd /tmp
-git clone https://github.com/ernestgwilsonii/docker-raspberry-pi-mosquitto.git
-cd docker-raspberry-pi-mosquitto
 sudo mkdir -p /opt/mqtt/config
 sudo mkdir -p /opt/mqtt/config/conf.d
 sudo mkdir -p /opt/mqtt/config/certs
@@ -71,9 +75,6 @@ docker service logs -f mosquitto_mqtt
 ###################
 # Install MQTT client
 # REF: https://mosquitto.org/download/
-
-# Raspberry Pi 4 client install:
-sudo apt install -y mosquitto-clients
 
 # CentOS 7x Client
 vi /etc/yum.repos.d/mqtt.repo
