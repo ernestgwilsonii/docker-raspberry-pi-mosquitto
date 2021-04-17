@@ -32,7 +32,8 @@ docker ps
 ####################
 # Create bind mounted directies
 ssh pi@IpAddressOfYourRaspberryPi
-cd /tmp
+sudo mkdir -p /opt/docker-compose
+cd /opt/docker-compose
 git clone https://github.com/ernestgwilsonii/docker-raspberry-pi-mosquitto.git
 cd docker-raspberry-pi-mosquitto
 sudo mkdir -p /opt/mqtt/config
@@ -41,14 +42,14 @@ sudo mkdir -p /opt/mqtt/config/certs
 sudo mkdir -p /opt/mqtt/data
 sudo mkdir -p /opt/mqtt/log
 sudo chmod -R a+rw /opt/mqtt
-cp mosquitto.conf /opt/mqtt/config/mosquitto.conf
-cp TCP_1883_Unencrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_1883_Unencrypted_MQTT.conf
-cp TCP_8883_Encrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_8883_Encrypted_MQTT.conf
-cp TCP_9001_Unencrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9001_Unencrypted_Websockets.conf
-cp TCP_9883_Encrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9883_Encrypted_Websockets.conf
-cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
-cp passwd /opt/mqtt/config/passwd
-cp aclfile /opt/mqtt/config/aclfile
+sudo cp mosquitto.conf /opt/mqtt/config/mosquitto.conf
+sudo cp TCP_1883_Unencrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_1883_Unencrypted_MQTT.conf
+sudo cp TCP_8883_Encrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_8883_Encrypted_MQTT.conf
+sudo cp TCP_9001_Unencrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9001_Unencrypted_Websockets.conf
+sudo cp TCP_9883_Encrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9883_Encrypted_Websockets.conf
+sudo cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
+sudo cp passwd /opt/mqtt/config/passwd
+sudo cp aclfile /opt/mqtt/config/aclfile
 sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 sudo chown -R 1000:1000 /opt/mqtt
 
