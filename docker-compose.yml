@@ -41,7 +41,7 @@ services:
       - type: bind
         source: /opt/mqtt/data
         target: /mosquitto/data
-        - type: bind
+      - type: bind
         source: /opt/mqtt/log
         target: /mosquitto/log
     deploy:
