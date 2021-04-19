@@ -51,7 +51,7 @@ sudo cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
 sudo cp passwd /opt/mqtt/config/passwd
 sudo cp aclfile /opt/mqtt/config/aclfile
 sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
-sudo chown -R 1000:1000 /opt/mqtt
+sudo chown -R root:1883 /opt/mqtt
 
 
 ##########
