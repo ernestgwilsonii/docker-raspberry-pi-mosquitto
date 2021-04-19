@@ -30,12 +30,15 @@ docker ps
 ###############################################################################
 # First time setup #
 ####################
-# Create bind mounted directies
 ssh pi@IpAddressOfYourRaspberryPi
+
+# Clone the kit onto the Raspberry Pi
 sudo mkdir -p /opt/docker-compose
 cd /opt/docker-compose
 git clone https://github.com/ernestgwilsonii/docker-raspberry-pi-mosquitto.git
 cd docker-raspberry-pi-mosquitto
+
+# Create bind mounted directories and copy starting files into place
 sudo mkdir -p /opt/mqtt/config
 sudo mkdir -p /opt/mqtt/config/conf.d
 sudo mkdir -p /opt/mqtt/config/certs
@@ -50,6 +53,9 @@ sudo cp TCP_9883_Encrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9883_Encr
 sudo cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
 sudo cp passwd /opt/mqtt/config/passwd
 sudo cp aclfile /opt/mqtt/config/aclfile
+cd /opt/mqtt/config/certs
+sudo ./generate-CA.sh
+ls -alF /opt/mqtt/config/certs
 sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 sudo chown -R root:1883 /opt/mqtt
 
