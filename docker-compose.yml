@@ -38,7 +38,7 @@ services:
       - type: bind
         source: /opt/mqtt/config/passwd
         target: /mosquitto/config/passwd
-        - type: bind
+      - type: bind
         source: /opt/mqtt/config/aclfile
         target: /mosquitto/config/aclfile
       - type: bind
