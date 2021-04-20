@@ -75,6 +75,8 @@ docker stack deploy -c docker-compose.yml mosquitto
 docker service ls | grep mosquitto
 docker service logs -f mosquitto_mqtt
 
+# Login to the actual container
+docker exec -ti mosquitto_mqtt.1.$(docker service ps -f 'name=mosquitto_mqtt.1' mosquitto_mqtt -q --no-trunc | head -n1) sh
 
 
 ###################
