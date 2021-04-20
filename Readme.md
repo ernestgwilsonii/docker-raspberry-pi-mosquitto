@@ -60,10 +60,14 @@ sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 sudo bash -c "cd /opt/mqtt/config/certs; /opt/mqtt/config/certs/generate-CA.sh"
 # Generate certs for various other users/services
 #sudo bash -c "cd /opt/mqtt/config/certs; /opt/mqtt/config/certs/generate-CA.sh SomeUserName"
-# Create generic mqtt symlinks for server hostname
-ln -s /opt/mqtt/config/certs/$(hostname).crt /opt/mqtt/config/certs/mqtt.crt
-ln -s /opt/mqtt/config/certs/$(hostname).csr /opt/mqtt/config/certs/mqtt.csr
-ln -s /opt/mqtt/config/certs/$(hostname).key /opt/mqtt/config/certs/mqtt.key
+# Move hostname specific files to generic mqtt namming
+mv /opt/mqtt/config/certs/$(hostname).crt /opt/mqtt/config/certs/mqtt.crt
+mv /opt/mqtt/config/certs/$(hostname).csr /opt/mqtt/config/certs/mqtt.csr
+mv /opt/mqtt/config/certs/$(hostname).key /opt/mqtt/config/certs/mqtt.key
+# Reverse link naming so the generate-CA.sh script does not attempt to create these again
+ln -s /opt/mqtt/config/certs/mqtt.crt /opt/mqtt/config/certs/$(hostname).crt
+ln -s /opt/mqtt/config/certs/mqtt.csr /opt/mqtt/config/certs/$(hostname).csr
+ln -s /opt/mqtt/config/certs/mqtt.key /opt/mqtt/config/certs/$(hostname).key
 ls -alF /opt/mqtt/config/certs
 # Set perms for bind mount as root and container group 1883
 sudo chown -R root:1883 /opt/mqtt
