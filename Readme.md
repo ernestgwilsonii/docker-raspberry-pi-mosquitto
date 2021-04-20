@@ -55,12 +55,12 @@ sudo cp TCP_9883_Encrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9883_Encr
 sudo cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
 sudo cp passwd /opt/mqtt/config/passwd
 sudo cp aclfile /opt/mqtt/config/aclfile
+sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 # Generate CA
 sudo bash -c "cd /opt/mqtt/config/certs; /opt/mqtt/config/certs/generate-CA.sh"
 # Generate certs for various other users/services
 #sudo bash -c "cd /opt/mqtt/config/certs; /opt/mqtt/config/certs/generate-CA.sh SomeUserName"
 ls -alF /opt/mqtt/config/certs
-sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 sudo chown -R root:1883 /opt/mqtt
 
 
