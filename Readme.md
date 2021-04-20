@@ -46,6 +46,8 @@ sudo mkdir -p /opt/mqtt/data
 sudo mkdir -p /opt/mqtt/log
 sudo chmod -R a+rw /opt/mqtt
 sudo cp mosquitto.conf /opt/mqtt/config/mosquitto.conf
+sudo cp passwd /opt/mqtt/config/passwd
+sudo cp aclfile /opt/mqtt/config/aclfile
 sudo cp TCP_1883_Unencrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_1883_Unencrypted_MQTT.conf
 sudo cp TCP_8883_Encrypted_MQTT.conf /opt/mqtt/config/conf.d/TCP_8883_Encrypted_MQTT.conf
 sudo cp TCP_9001_Unencrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9001_Unencrypted_Websockets.conf
@@ -53,8 +55,13 @@ sudo cp TCP_9883_Encrypted_Websockets.conf /opt/mqtt/config/conf.d/TCP_9883_Encr
 sudo cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
 sudo cp passwd /opt/mqtt/config/passwd
 sudo cp aclfile /opt/mqtt/config/aclfile
+# Generate CA
 cd /opt/mqtt/config/certs
 sudo ./generate-CA.sh
+# Generate certs for users/services
+#sudo ./generate-CA.sh SomeUserName
+#sudo ./generate-CA.sh SomeOtherUserName
+#sudo ./generate-CA.sh SomeServiceName
 ls -alF /opt/mqtt/config/certs
 sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 sudo chown -R root:1883 /opt/mqtt
@@ -115,17 +122,32 @@ mosquitto_pub -d -h 127.0.0.1 -p 1883 -t "Chan19" -m "Hello MQTT from command li
 ws://IP:9001/mqtt
 Chan19
 Hello from Websocket!
+
+# Next: https://github.com/mqttjs/MQTT.js/
 ###############################################################################
 
 
 ###############################################################################
-# Travis CI Notes:
-# REF: https://travis-ci.org/ernestgwilsonii/docker-raspberry-pi-mosquitto
-# To build ARM (for Raspberry Pi) in the cloud on X86_64 requires:
-#  - a special Docker that understands "docker build --volume"
-#  - qemu emulation
-# REF: https://github.com/dersimn/HelloARM
-# REF: https://developer.ibm.com/linuxonpower/2017/07/28/travis-multi-architecture-ci-workflow/
-# REF: https://github.com/multiarch/qemu-user-static/releases
+# Generate Certs
+# REF: https://mosquitto.org/documentation/
+cd /opt/mqtt/config/certs
+sudo ./generate-CA.sh
+# Generate certs for users/services
+#sudo ./generate-CA.sh SomeUserName
+#sudo ./generate-CA.sh SomeOtherUserName
+#sudo ./generate-CA.sh SomeServiceName
+
+# Add users
+# REF: https://mosquitto.org/man/mosquitto_passwd-1.html
+docker ps
+docker exec -it ContainerIdHere sh
+mosquitto_passwd -c /mosquitto/config/passwd SomeUserName
+cat /mosquitto/config/passwd 
+
+# Edit the ACL controls
+# REF: https://mosquitto.org/man/mosquitto-conf-5.html
+# Either from inside the Docker container
+vi /mosquitto/config/aclfile
+# Or from the bind mounted Docker host
+vi /opt/mqtt/config/aclfile
 ###############################################################################
-```
