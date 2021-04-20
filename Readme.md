@@ -56,12 +56,9 @@ sudo cp generate-CA.sh /opt/mqtt/config/certs/generate-CA.sh
 sudo cp passwd /opt/mqtt/config/passwd
 sudo cp aclfile /opt/mqtt/config/aclfile
 # Generate CA
-cd /opt/mqtt/config/certs
-sudo ./generate-CA.sh
-# Generate certs for users/services
-#sudo ./generate-CA.sh SomeUserName
-#sudo ./generate-CA.sh SomeOtherUserName
-#sudo ./generate-CA.sh SomeServiceName
+sudo bash -c "cd /opt/mqtt/config/certs; /opt/mqtt/config/certs/generate-CA.sh"
+# Generate certs for various other users/services
+#sudo bash -c "cd /opt/mqtt/config/certs; /opt/mqtt/config/certs/generate-CA.sh SomeUserName"
 ls -alF /opt/mqtt/config/certs
 sudo chmod +x /opt/mqtt/config/certs/generate-CA.sh
 sudo chown -R root:1883 /opt/mqtt
@@ -142,7 +139,7 @@ sudo ./generate-CA.sh
 docker ps
 docker exec -it ContainerIdHere sh
 mosquitto_passwd -c /mosquitto/config/passwd SomeUserName
-cat /mosquitto/config/passwd 
+cat /mosquitto/config/passwd
 
 # Edit the ACL controls
 # REF: https://mosquitto.org/man/mosquitto-conf-5.html
@@ -151,3 +148,4 @@ vi /mosquitto/config/aclfile
 # Or from the bind mounted Docker host
 vi /opt/mqtt/config/aclfile
 ###############################################################################
+```
