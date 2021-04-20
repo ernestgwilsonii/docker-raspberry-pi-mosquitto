@@ -1,8 +1,8 @@
 # This affects all clients
-pattern write $SYS/#
+#pattern write $SYS/#
 
 # This affects access control for clients with no username
-topic read $SYS/#
+#topic read $SYS/#
 
 # Example for SomeUserName
 #user SomeUserName
