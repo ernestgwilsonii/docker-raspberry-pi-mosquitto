@@ -34,6 +34,7 @@ ssh pi@IpAddressOfYourRaspberryPi
 
 # Clone the kit onto the Raspberry Pi
 sudo mkdir -p /opt/docker-compose
+sudo chmod a+rw -R /opt/docker-compose/
 cd /opt/docker-compose
 git clone https://github.com/ernestgwilsonii/docker-raspberry-pi-mosquitto.git
 cd docker-raspberry-pi-mosquitto
