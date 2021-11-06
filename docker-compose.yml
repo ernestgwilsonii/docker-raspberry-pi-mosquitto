@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mqtt:
-    image: arm64v8/eclipse-mosquitto:2.0.10-openssl
+    image: eclipse-mosquitto:2.0.13-openssl
     hostname: mosquitto
     ports:
       # MQTT unencrypted TCP 1883
