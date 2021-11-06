@@ -12,16 +12,16 @@ ssh pi@IpAddressOfYourRaspberryPi
 # RASPBERRY PI 4 VERSIONS: https://hub.docker.com/r/arm64v8/eclipse-mosquitto/
 # The "openssl" version uses openssl instead of libressl, and enables TLS-PSK and TLS v1.3 cipher support
 # REF: https://github.com/eclipse/mosquitto/tree/1c79920d78321c69add9d6d6f879dd73387bc25e/docker/2.0-openssl
-MOSQUITTO_VERSION=2.0.10-openssl
+MOSQUITTO_VERSION=2.0.13-openssl
 
 # Dowbload the Raspberry Pi 4 version:
-docker pull arm64v8/eclipse-mosquitto:$MOSQUITTO_VERSION
+docker pull eclipse-mosquitto:$MOSQUITTO_VERSION
 
 # List images and examine sizes
 docker images
 
 # Test running Mosquitto MQTT on Raspberry Pi 4
-docker run -it arm64v8/eclipse-mosquitto:$MOSQUITTO_VERSION
+docker run -it eclipse-mosquitto:$MOSQUITTO_VERSION
 # From another ssh session:
 docker ps
 ###############################################################################
