@@ -12,7 +12,7 @@ ssh pi@IpAddressOfYourRaspberryPi
 # RASPBERRY PI 4 VERSIONS: https://hub.docker.com/r/arm64v8/eclipse-mosquitto/
 # The "openssl" version uses openssl instead of libressl, and enables TLS-PSK and TLS v1.3 cipher support
 # REF: https://github.com/eclipse/mosquitto/tree/1c79920d78321c69add9d6d6f879dd73387bc25e/docker/2.0-openssl
-MOSQUITTO_VERSION=2.0.13-openssl
+MOSQUITTO_VERSION=2.0.14-openssl
 
 # Dowbload the Raspberry Pi 4 version:
 docker pull eclipse-mosquitto:$MOSQUITTO_VERSION
@@ -72,6 +72,7 @@ ln -s /opt/mqtt/config/certs/mqtt.key /opt/mqtt/config/certs/$(hostname).key
 ls -alF /opt/mqtt/config/certs
 # Set perms for bind mount as root and container group 1883
 sudo chown -R root:1883 /opt/mqtt
+ls -alF /opt/mqtt
 
 
 ##########
